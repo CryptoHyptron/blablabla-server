@@ -1,7 +1,7 @@
 {
   "name": "blablabla-server",
   "version": "1.0.0",
-  "description": "Simple chat backend using Express and Socket.IO",
+  "description": "Simple chat server",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

@@ -1,19 +1,25 @@
-const express = require("express");
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+const path = require('path');
+
 const app = express();
-const http = require("http").createServer(app);
-const io = require("socket.io")(http, {
-  cors: {
-    origin: "*"
-  }
+const server = http.createServer(app);
+const io = new Server(server);
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-io.on("connection", (socket) => {
-  socket.on("chat message", (msg) => {
-    io.emit("chat message", msg);
+io.on('connection', (socket) => {
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
   });
 });
 
 const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => {
-  console.log("Server listening on port", PORT);
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
